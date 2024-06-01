@@ -121,6 +121,8 @@ export interface IPointCloudContext
     [key: string]: ISize;
   };
   cacheImageNodeSize: (params: { imgNode: HTMLImageElement; path: string }) => void;
+  rectRotateSensitivity: number; // Rect Rotate Sensitivity
+  setRectRotateSensitivity: (sensitivity: number) => void;
 }
 
 export const PointCloudContext = React.createContext<IPointCloudContext>({
@@ -190,6 +192,8 @@ export const PointCloudContext = React.createContext<IPointCloudContext>({
   setCuboidBoxIn2DView: (bool?: boolean) => {},
   imageSizes: {},
   cacheImageNodeSize: () => {},
+  rectRotateSensitivity: 2,
+  setRectRotateSensitivity: () => {},
 });
 
 export const PointCloudProvider: React.FC<{}> = ({ children }) => {
@@ -200,6 +204,7 @@ export const PointCloudProvider: React.FC<{}> = ({ children }) => {
   const [selectedIDs, setSelectedIDsState] = useState<string[]>([]);
   const [highlightIDs, setHighlightIDs] = useState<number[]>([]);
   const [valid, setValid] = useState<boolean>(true);
+  const [rectRotateSensitivity, setRectRotateSensitivity] = useState<number>(2);
   const [cuboidBoxIn2DView, setCuboidBoxIn2DView] = useState<boolean>(true);
   const [zoom, setZoom] = useState<number>(1);
   const [topViewInstance, setTopViewInstance] = useState<PointCloudAnnotation>();
@@ -468,6 +473,8 @@ export const PointCloudProvider: React.FC<{}> = ({ children }) => {
       cacheImageNodeSize,
       highlightIDs,
       setHighlightIDs,
+      rectRotateSensitivity,
+      setRectRotateSensitivity,
     };
   }, [
     valid,
@@ -492,6 +499,7 @@ export const PointCloudProvider: React.FC<{}> = ({ children }) => {
     cuboidBoxIn2DView,
     imageSizes,
     highlightIDs,
+    rectRotateSensitivity
   ]);
 
   useEffect(() => {
